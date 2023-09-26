@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "615860004151",
+    "firebase_url": "https://tuchop-bd49b-default-rtdb.firebaseio.com",
+    "project_id": "tuchop-bd49b",
+    "storage_bucket": "tuchop-bd49b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:615860004151:android:cd190cde8e9f42821566b2",
+        "android_client_info": {
+          "package_name": "com.example.tuchop"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBX5PMyFdR4BQSnLl1Qei7SkTdargSN2zI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
