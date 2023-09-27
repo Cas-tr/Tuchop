@@ -14,12 +14,15 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -50,19 +53,20 @@ import com.example.tuchop.ui.theme.TuchopTheme
 fun AddStudentScreen(navController: NavHostController) {
     Column(
         modifier = Modifier
-            .fillMaxSize()
-            .background(Color.Blue),
+            .fillMaxSize(),
+//            .background(Color.Blue),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Row {
             Spacer(modifier = Modifier.weight(1f))
-            IconButton(onClick = { navController.navigate(ROUTE_HOME) }) {
+            IconButton(onClick = { navController.navigate(ROUTE_HOME) },
+                colors = IconButtonDefaults.iconButtonColors(contentColor = Color.Red)) {
                 Icon(imageVector = Icons.Default.Home, contentDescription = "")
             }
         }
         var context = LocalContext.current
         Text(
-            text = "STUDENT",
+            text = "ADD STUDENT",
             fontSize = 30.sp,
             fontFamily = FontFamily.Monospace,
             color = Color.Red,
@@ -79,46 +83,43 @@ fun AddStudentScreen(navController: NavHostController) {
 
 
 
-        TextField(
+        OutlinedTextField(
             value = name,
             onValueChange = { name = it },
             leadingIcon = { Icon(imageVector = Icons.Default.Person, contentDescription = null) },
             label = { Text(text = "Name *") },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-            modifier = Modifier
-                .background(Color.White)
+
         )
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        TextField(
+        OutlinedTextField(
             value =phoneNumber ,
             onValueChange ={phoneNumber = it},
             leadingIcon = { Icon(imageVector = Icons.Default.Phone, contentDescription = null) },
             label = { Text(text = "Phone Number* start with 7..0r 1.. ") },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
-            modifier = Modifier.background(Color.White))
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone))
         Spacer(modifier = Modifier.height(20.dp))
 
-        TextField(
+        OutlinedTextField(
             value =email ,
             onValueChange ={email= it},
             label = { Text(text = "Email*") },
             leadingIcon = { Icon(imageVector = Icons.Default.Email, contentDescription = null) },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
-            modifier = Modifier.background(Color.White))
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email))
 
         Spacer(modifier = Modifier.height(20.dp))
         ExposedDropdownMenuBox(expanded = isExpanded, onExpandedChange = {isExpanded = it}
         ) {
-            TextField(
+            OutlinedTextField(
                 value = levelOfEducation,
                 onValueChange = {levelOfEducation=it},
                 readOnly = true,
                 trailingIcon = {
                     ExposedDropdownMenuDefaults.TrailingIcon(expanded = isExpanded)
                 },
-                colors = ExposedDropdownMenuDefaults.textFieldColors(),
+//                colors = ExposedDropdownMenuDefaults.textFieldColors(),
                 modifier = Modifier.menuAnchor(),
                 label = { Text(text = "Level of Education") }
             )
@@ -147,7 +148,7 @@ fun AddStudentScreen(navController: NavHostController) {
             var studentRepository = StudentRepository(navController,context)
             studentRepository.saveStudent(name.text.trim(), email .text.trim(),
                 phoneNumber .text.trim(),levelOfEducation.trim())
-        }){
+        },colors = ButtonDefaults.buttonColors(containerColor = Color.Red,contentColor = Color.White)){
             Text(text = "Submit")
 
         }

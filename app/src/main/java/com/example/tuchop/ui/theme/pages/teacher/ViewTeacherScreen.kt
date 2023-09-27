@@ -20,8 +20,11 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -41,6 +44,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -70,14 +74,27 @@ fun ViewTeacherScreen(navController: NavHostController) {
             .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Spacer(modifier = Modifier.height(20.dp))
+        Row {
+            Spacer(modifier = Modifier.weight(1f))
+            IconButton(
+                onClick = { navController.navigate(ROUTE_HOME) },
+                colors = IconButtonDefaults.iconButtonColors(
+                    contentColor = Color.Red
+                )
+            ) {
+                Icon(imageVector = Icons.Default.Home, contentDescription = "")
+            }
+        }
         Text(
             text = "TEACHERS",
-            fontSize = 30.sp,
+            color = Color.Red,
             fontFamily = FontFamily.Monospace,
-            fontWeight = FontWeight.Bold
+            fontSize = 30.sp,
+            textDecoration = TextDecoration.Underline,
+            fontWeight = FontWeight.SemiBold,
+            modifier = Modifier.padding(20.dp)
         )
-
+        Text(text = "To contact a teacher, tap on them!", color = Color.Gray)
         Spacer(modifier = Modifier.height(20.dp))
         LazyColumn {
             items(teachers) {
@@ -99,10 +116,6 @@ fun ViewTeacherScreen(navController: NavHostController) {
         Spacer(modifier = Modifier.weight(1f))
 
         Row {
-            IconButton(onClick = { navController.navigate(ROUTE_HOME) },
-                colors = IconButtonDefaults.iconButtonColors(containerColor = Color.Red, contentColor = Color.White)) {
-                Icon(imageVector = Icons.Default.Home, contentDescription = "")
-            }
             Spacer(modifier = Modifier.weight(1f))
             FloatingActionButton(
                 onClick = {
@@ -138,44 +151,56 @@ fun TeacherItem(name:String, email:String, phoneNumber:String, levelOfEducation:
                     "What do you say?")
             context.startActivity(intent)
         }, colors = CardDefaults.cardColors(
-            containerColor = Color.White
+//            containerColor = Color.White
         ),
             elevation = CardDefaults.elevatedCardElevation(4.dp),
-            modifier = Modifier.width(240.dp)) {
-            Row {
+            modifier = Modifier.width(300.dp)) {
+            Row(modifier = Modifier.align(CenterHorizontally)){
                 Text(text = "Name: ")
                 Text(text = name)
             }
-            Row {
+            Row (modifier = Modifier.align(CenterHorizontally)){
                 Text(text = "Email: ")
                 Text(text = email)
             }
-            Row {
+            Row (modifier = Modifier.align(CenterHorizontally)){
                 Text(text = "Phone Number: ")
                 Text(text = phoneNumber)
             }
-            Row {
+            Row (modifier = Modifier.align(CenterHorizontally)){
                 Text(text = "Level of Education: ")
                 Text(text = levelOfEducation)
             }
-            Row {
+            Row(modifier = Modifier.align(CenterHorizontally)) {
                 Text(text = "School: ")
                 Text(text = school)
             }
-            Row {
+            Row(modifier = Modifier.align(CenterHorizontally)) {
                 Text(text = "Subject: ")
                 Text(text = subject)
             }
-            Button(onClick = {
-                teacherRepository.deleteTeacher(teacherId)
-            },modifier = Modifier.align(CenterHorizontally)) {
-                Text(text = "Delete")
+            Row {
+                IconButton(onClick = { teacherRepository.deleteTeacher(teacherId)},
+                    colors = IconButtonDefaults.iconButtonColors(contentColor = Color.Red)) {
+                    Icon(imageVector = Icons.Default.Delete, contentDescription = "")
+                }
+                IconButton(onClick = { navController.navigate(ROUTE_UPDATE_TEACHERS_SCREEN + "/$teacherId")},
+                    colors = IconButtonDefaults.iconButtonColors(contentColor = Color.Red)) {
+                    Icon(imageVector = Icons.Default.Edit, contentDescription = "")
+                }
             }
-            Button(onClick = {
-                navController.navigate(ROUTE_UPDATE_TEACHERS_SCREEN + "/$teacherId")
-            },modifier = Modifier.align(CenterHorizontally)) {
-                Text(text = "Update")
-            }
+
+//            Button(onClick = {
+//                teacherRepository.deleteTeacher(teacherId)
+//            },modifier = Modifier.align(CenterHorizontally)) {
+//                Text(text = "Delete")
+//            }
+
+//            Button(onClick = {
+//                navController.navigate(ROUTE_UPDATE_TEACHERS_SCREEN + "/$teacherId")
+//            },modifier = Modifier.align(CenterHorizontally)) {
+//                Text(text = "Update")
+//            }
         }
     }
     Spacer(modifier = Modifier.height(20.dp))

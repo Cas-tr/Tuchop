@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
@@ -16,6 +17,8 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
@@ -35,6 +38,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -46,6 +51,7 @@ import com.example.tuchop.navigation.ROUTE_ADD_STUDENTS_SCREEN
 import com.example.tuchop.navigation.ROUTE_ADD_TEACHERS_SCREEN
 import com.example.tuchop.navigation.ROUTE_HOME
 import com.example.tuchop.navigation.ROUTE_UPDATE_STUDENTS_SCREEN
+import com.example.tuchop.navigation.ROUTE_UPDATE_TEACHERS_SCREEN
 import com.example.tuchop.ui.theme.TuchopTheme
 
 @Composable
@@ -68,10 +74,26 @@ fun ViewStudentScreen(navController: NavHostController) {
                 .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            Row {
+                Spacer(modifier = Modifier.weight(1f))
+                IconButton(
+                    onClick = { navController.navigate(ROUTE_HOME) },
+                    colors = IconButtonDefaults.iconButtonColors(
+                        contentColor = Color.Red
+                    )
+                ) {
+                    Icon(imageVector = Icons.Default.Home, contentDescription = "")
+                }
+            }
             Text(text = "All STUDENTS",
+                color = Color.Red,
+                fontFamily = FontFamily.Monospace,
                 fontSize = 30.sp,
-                fontFamily = FontFamily.Cursive,
-                color = Color.Red)
+                textDecoration = TextDecoration.Underline,
+                fontWeight = FontWeight.SemiBold,
+                modifier = Modifier.padding(10.dp))
+
+            Text(text = "To contact a student, tap on them!", color = Color.Gray)
 
             Spacer(modifier = Modifier.height(20.dp))
 
@@ -91,10 +113,6 @@ fun ViewStudentScreen(navController: NavHostController) {
             Column {
                 Spacer(modifier = Modifier.weight(1f))
                 Row {
-                    IconButton(onClick = { navController.navigate(ROUTE_HOME) },
-                        colors = IconButtonDefaults.iconButtonColors(containerColor = Color.Red, contentColor = Color.White)) {
-                        Icon(imageVector = Icons.Default.Home, contentDescription = "")
-                    }
                     Spacer(modifier = Modifier.weight(1f))
                     FloatingActionButton(
                         onClick = {
@@ -132,36 +150,47 @@ fun StudentItem( name:String,email:String,phoneNumber:String,levelOfEducation:St
                     "What do you say?")
             context.startActivity(intent)
         }, colors = CardDefaults.cardColors(
-            containerColor = Color.White
+//            containerColor = Color.White
         ),
             elevation = CardDefaults.elevatedCardElevation(4.dp),
+            modifier = Modifier.width(300.dp)
         ) {
-            Row {
+            Row  (modifier = Modifier.align(Alignment.CenterHorizontally)){
                 Text(text = "Name: ")
                 Text(text = name)
             }
-            Row {
+            Row  (modifier = Modifier.align(Alignment.CenterHorizontally)){
                 Text(text = "Email: ")
                 Text(text = email)
             }
-            Row {
+            Row (modifier = Modifier.align(Alignment.CenterHorizontally)) {
                 Text(text = "Phone Number: ")
                 Text(text = phoneNumber)
             }
-            Row {
+            Row  (modifier = Modifier.align(Alignment.CenterHorizontally)){
                 Text(text = "Level of Education: ")
                 Text(text = levelOfEducation)
             }
-            Button(onClick = {
-                studentRepository.deleteStudent(studentId)
-            },modifier = Modifier.align(Alignment.CenterHorizontally)) {
-                Text(text = "Delete")
+            Row {
+                IconButton(onClick = {studentRepository.deleteStudent(studentId) },
+                    colors = IconButtonDefaults.iconButtonColors(contentColor = Color.Red)) {
+                    Icon(imageVector = Icons.Default.Delete, contentDescription = "")
+                }
+                IconButton(onClick = { navController.navigate("$ROUTE_UPDATE_STUDENTS_SCREEN/$studentId")},
+                    colors = IconButtonDefaults.iconButtonColors(contentColor = Color.Red)) {
+                    Icon(imageVector = Icons.Default.Edit, contentDescription = "")
+                }
             }
-            Button(onClick = {
-                navController.navigate("$ROUTE_UPDATE_STUDENTS_SCREEN/$studentId")
-            },modifier = Modifier.align(Alignment.CenterHorizontally)) {
-                Text(text = "Update")
-            }
+//            Button(onClick = {
+//                studentRepository.deleteStudent(studentId)
+//            },modifier = Modifier.align(Alignment.CenterHorizontally)) {
+//                Text(text = "Delete")
+//            }
+//            Button(onClick = {
+//                navController.navigate("$ROUTE_UPDATE_STUDENTS_SCREEN/$studentId")
+//            },modifier = Modifier.align(Alignment.CenterHorizontally)) {
+//                Text(text = "Update")
+//            }
         }
 
     }

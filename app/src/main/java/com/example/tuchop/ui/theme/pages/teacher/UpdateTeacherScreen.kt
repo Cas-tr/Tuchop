@@ -11,9 +11,11 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -52,7 +54,10 @@ fun UpdateTeacherScreen(navController: NavHostController,id:String) {
         horizontalAlignment = Alignment.CenterHorizontally) {
         Row {
             Spacer(modifier = Modifier.weight(1f))
-            IconButton(onClick = { navController.navigate(ROUTE_HOME) }) {
+            IconButton(onClick = { navController.navigate(ROUTE_HOME) },
+                colors = IconButtonDefaults.iconButtonColors(
+                    contentColor = Color.Red
+                )) {
                 Icon(imageVector = Icons.Default.Home, contentDescription = "")
             }
         }
@@ -83,9 +88,9 @@ fun UpdateTeacherScreen(navController: NavHostController,id:String) {
         })
 
         Text(
-            text = "Add teacher",
+            text = "Update teacher",
             fontSize = 30.sp,
-            fontFamily = FontFamily.Cursive,
+            fontFamily = FontFamily.Monospace,
             color = Color.Red,
             modifier = Modifier.padding(20.dp),
             fontWeight = FontWeight.Bold,
@@ -123,26 +128,29 @@ fun UpdateTeacherScreen(navController: NavHostController,id:String) {
             label = { Text(text = "Teacher PhoneNumber* start with 7..0r 1..") },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
         )
+        Spacer(modifier = Modifier.height(20.dp))
+
         OutlinedTextField(
             value = teacherLevelOfEducation,
             onValueChange = { teacherLevelOfEducation = it },
             label = { Text(text = "Teacher Level Of Education *") },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
         )
+        Spacer(modifier = Modifier.height(20.dp))
+
         OutlinedTextField(
             value = teacherSchool,
             onValueChange = { teacherSchool = it },
             label = { Text(text = "Teacher's school *") },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
         )
+        Spacer(modifier = Modifier.height(20.dp))
         OutlinedTextField(
             value = teacherSubject,
             onValueChange = { teacherSubject = it },
             label = { Text(text = "Teacher's school *") },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
         )
-
-
         Spacer(modifier = Modifier.height(20.dp))
 
         Button(onClick = {
@@ -152,9 +160,7 @@ fun UpdateTeacherScreen(navController: NavHostController,id:String) {
                 teacherPhoneNumber.text.trim(),teacherLevelOfEducation.text.trim(),teacherSchool.text.trim(),
                 teacherSubject.text.trim(),id)
             navController.navigate(ROUTE_VIEW_TEACHERS_SCREEN)
-
-
-        }) {
+        },colors = ButtonDefaults.buttonColors(containerColor = Color.Red,contentColor = Color.White)) {
             Text(text = "Update")
         }
 

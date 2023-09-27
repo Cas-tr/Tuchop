@@ -6,7 +6,9 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Create
 import androidx.compose.material.icons.filled.Email
@@ -14,12 +16,15 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -29,8 +34,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextDecoration
@@ -49,23 +56,29 @@ import com.example.tuchop.ui.theme.TuchopTheme
 fun AddTeacherScreen(navController: NavHostController) {
     Column(
         modifier = Modifier
-            .fillMaxSize(),
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState()),
 //            .background(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Row {
             Spacer(modifier = Modifier.weight(1f))
-            IconButton(onClick = { navController.navigate(ROUTE_HOME) }) {
+            IconButton(onClick = { navController.navigate(ROUTE_HOME) },
+                colors = IconButtonDefaults.iconButtonColors(
+                    contentColor = Color.Red
+                )) {
                 Icon(imageVector = Icons.Default.Home, contentDescription = "")
             }
         }
         var context = LocalContext.current
         Text(
-            text = "TEACHER",
+            text = "ADD TEACHER",
             fontSize = 30.sp,
             fontFamily = FontFamily.Monospace,
-            textDecoration = TextDecoration.Underline,
-            modifier = Modifier.padding(20.dp)
+            color = Color.Red,
+            modifier = Modifier.padding(20.dp),
+            fontWeight = FontWeight.Bold,
+            textDecoration = TextDecoration.Underline
 
         )
         var name by remember { mutableStateOf(TextFieldValue("")) }
@@ -80,7 +93,7 @@ fun AddTeacherScreen(navController: NavHostController) {
 
 
 
-        TextField(
+        OutlinedTextField(
             value = name,
             onValueChange = { name = it },
             label = { Text(text = "Name*") },
@@ -88,7 +101,7 @@ fun AddTeacherScreen(navController: NavHostController) {
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
         )
         Spacer(modifier = Modifier.height(20.dp))
-        TextField(
+        OutlinedTextField(
             value = phoneNumber,
             onValueChange = { phoneNumber = it },
             label = { Text(text = "Phone Number* start with 7..0r 1..") },
@@ -96,7 +109,7 @@ fun AddTeacherScreen(navController: NavHostController) {
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
         )
         Spacer(modifier = Modifier.height(20.dp))
-        TextField(
+        OutlinedTextField(
             value = email,
             onValueChange = { email = it },
             leadingIcon = { Icon(imageVector = Icons.Default.Email, contentDescription = null) },
@@ -106,14 +119,14 @@ fun AddTeacherScreen(navController: NavHostController) {
         Spacer(modifier = Modifier.height(20.dp))
         ExposedDropdownMenuBox(expanded = isExpanded, onExpandedChange = { isExpanded = it }
         ) {
-            TextField(
+            OutlinedTextField(
                 value = levelOfEducation,
                 onValueChange = {levelOfEducation=it},
                 readOnly = true,
                 trailingIcon = {
                     ExposedDropdownMenuDefaults.TrailingIcon(expanded = isExpanded)
                 },
-                colors = ExposedDropdownMenuDefaults.textFieldColors(),
+//                colors = ExposedDropdownMenuDefaults.textFieldColors(),
                 modifier = Modifier.menuAnchor(),
                 label = { Text(text = "Level of Education") }
             )
@@ -141,14 +154,14 @@ fun AddTeacherScreen(navController: NavHostController) {
         Spacer(modifier = Modifier.height(20.dp))
         ExposedDropdownMenuBox(expanded = ifExpanded, onExpandedChange = { ifExpanded = it }
         ) {
-            TextField(
+            OutlinedTextField(
                 value = subject,
                 onValueChange = {subject=it},
                 readOnly = true,
                 trailingIcon = {
                     ExposedDropdownMenuDefaults.TrailingIcon(expanded = ifExpanded)
                 },
-                colors = ExposedDropdownMenuDefaults.textFieldColors(),
+//                colors = ExposedDropdownMenuDefaults.textFieldColors(),
                 modifier = Modifier.menuAnchor(),
                 label = { Text(text = "Subjects*") }
             )
@@ -172,7 +185,7 @@ fun AddTeacherScreen(navController: NavHostController) {
             }
         }
         Spacer(modifier = Modifier.height(20.dp))
-        TextField(
+        OutlinedTextField(
             value = school,
             onValueChange = { school = it },
             label = { Text(text = "School*") },
@@ -189,10 +202,7 @@ fun AddTeacherScreen(navController: NavHostController) {
                     school.text.trim(),subject.trim()
                 )
                 navController.navigate(ROUTE_VIEW_TEACHERS_SCREEN)
-            },
-            modifier = Modifier
-                .padding(80.dp, 50.dp)
-
+            },colors = ButtonDefaults.buttonColors(containerColor = Color.Red, contentColor = Color.White)
         ) {
             Text(text = "Submit")
 
