@@ -28,6 +28,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateListOf
@@ -66,8 +67,7 @@ fun ViewTeacherScreen(navController: NavHostController) {
 
     Column(
         modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState()),
+            .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Spacer(modifier = Modifier.height(20.dp))
@@ -97,10 +97,12 @@ fun ViewTeacherScreen(navController: NavHostController) {
     }
     Column {
         Spacer(modifier = Modifier.weight(1f))
-        IconButton(onClick = { navController.navigate(ROUTE_HOME) }) {
-            Icon(imageVector = Icons.Default.Home, contentDescription = "")
-        }
+
         Row {
+            IconButton(onClick = { navController.navigate(ROUTE_HOME) },
+                colors = IconButtonDefaults.iconButtonColors(containerColor = Color.Red, contentColor = Color.White)) {
+                Icon(imageVector = Icons.Default.Home, contentDescription = "")
+            }
             Spacer(modifier = Modifier.weight(1f))
             FloatingActionButton(
                 onClick = {
@@ -124,8 +126,7 @@ fun TeacherItem(name:String, email:String, phoneNumber:String, levelOfEducation:
                 navController: NavHostController, teacherRepository: TeacherRepository
 ) {
     Column(modifier = Modifier
-        .fillMaxWidth()
-        .verticalScroll(rememberScrollState()),
+        .fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         var context = LocalContext.current
@@ -141,12 +142,30 @@ fun TeacherItem(name:String, email:String, phoneNumber:String, levelOfEducation:
         ),
             elevation = CardDefaults.elevatedCardElevation(4.dp),
             modifier = Modifier.width(240.dp)) {
-            Text(text = "Name: $name", modifier = Modifier.align(CenterHorizontally))
-            Text(text = "Email: $email",modifier = Modifier.align(CenterHorizontally))
-            Text(text = "PhoneNumber: $phoneNumber",modifier = Modifier.align(CenterHorizontally))
-            Text(text = "Level of Education: $levelOfEducation",modifier = Modifier.align(CenterHorizontally))
-            Text(text = "School: $school",modifier = Modifier.align(CenterHorizontally))
-            Text(text = "Subject: $subject",modifier = Modifier.align(CenterHorizontally))
+            Row {
+                Text(text = "Name: ")
+                Text(text = name)
+            }
+            Row {
+                Text(text = "Email: ")
+                Text(text = email)
+            }
+            Row {
+                Text(text = "Phone Number: ")
+                Text(text = phoneNumber)
+            }
+            Row {
+                Text(text = "Level of Education: ")
+                Text(text = levelOfEducation)
+            }
+            Row {
+                Text(text = "School: ")
+                Text(text = school)
+            }
+            Row {
+                Text(text = "Subject: ")
+                Text(text = subject)
+            }
             Button(onClick = {
                 teacherRepository.deleteTeacher(teacherId)
             },modifier = Modifier.align(CenterHorizontally)) {

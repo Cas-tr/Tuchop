@@ -24,6 +24,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateListOf
@@ -64,8 +65,7 @@ fun ViewStudentScreen(navController: NavHostController) {
 
         Column(
             modifier = Modifier
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState()),
+                .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(text = "All STUDENTS",
@@ -90,11 +90,12 @@ fun ViewStudentScreen(navController: NavHostController) {
             }
             Column {
                 Spacer(modifier = Modifier.weight(1f))
-                IconButton(onClick = { navController.navigate(ROUTE_HOME) }) {
-                    Icon(imageVector = Icons.Default.Home, contentDescription = "")
-                }
                 Row {
-            Spacer(modifier = Modifier.weight(1f))
+                    IconButton(onClick = { navController.navigate(ROUTE_HOME) },
+                        colors = IconButtonDefaults.iconButtonColors(containerColor = Color.Red, contentColor = Color.White)) {
+                        Icon(imageVector = Icons.Default.Home, contentDescription = "")
+                    }
+                    Spacer(modifier = Modifier.weight(1f))
                     FloatingActionButton(
                         onClick = {
                             navController.navigate(ROUTE_ADD_STUDENTS_SCREEN)
@@ -119,8 +120,7 @@ fun StudentItem( name:String,email:String,phoneNumber:String,levelOfEducation:St
                  navController:NavHostController, studentRepository:StudentRepository) {
 
     Column(modifier = Modifier
-        .fillMaxWidth()
-        .verticalScroll(rememberScrollState()),
+        .fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         var context = LocalContext.current
@@ -136,10 +136,22 @@ fun StudentItem( name:String,email:String,phoneNumber:String,levelOfEducation:St
         ),
             elevation = CardDefaults.elevatedCardElevation(4.dp),
         ) {
-            Text(text = "Name: $name",modifier = Modifier.align(Alignment.CenterHorizontally))
-            Text(text = "Email: $email",modifier = Modifier.align(Alignment.CenterHorizontally))
-            Text(text = "Phone Number: $phoneNumber",modifier = Modifier.align(Alignment.CenterHorizontally))
-            Text(text = "Level of Education: $levelOfEducation",modifier = Modifier.align(Alignment.CenterHorizontally))
+            Row {
+                Text(text = "Name: ")
+                Text(text = name)
+            }
+            Row {
+                Text(text = "Email: ")
+                Text(text = email)
+            }
+            Row {
+                Text(text = "Phone Number: ")
+                Text(text = phoneNumber)
+            }
+            Row {
+                Text(text = "Level of Education: ")
+                Text(text = levelOfEducation)
+            }
             Button(onClick = {
                 studentRepository.deleteStudent(studentId)
             },modifier = Modifier.align(Alignment.CenterHorizontally)) {
